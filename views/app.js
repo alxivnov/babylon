@@ -6,14 +6,18 @@ const draw = (arg) => {
 
 export default {
 	template: /*html*/`
-<div class="container text-center">
-	<div class="row align-items-center">
-		<div class="d-grid gap-3 col-lg-4 mx-auto my-3">
-			<h1 class="mx-auto">{{ this.words.length > this.index && words[index].tr }}</h1>
+	<div class="row" style="height: 100vh">
+		<div class="d-grid gap-3 col-lg-4 mx-auto my-auto">
+			<div class="hstack">
+				<span class="fs-1 text-center" style="width: 48px;">{{ state < 0 ? '🙂' : state == index ? '🤩' : '😭' }}</span>
+				<h1 class="mx-auto">{{ this.words.length > this.index && words[index].tr }}</h1>
+				<span style="width: 48px;"></span>
+			</div>
 			<button
 				type="button"
-				class="btn"
+				class="btn rounded-3"
 				:class="color(i)"
+				:disabled="state >= 0"
 				v-for="(word, i) in words"
 				:key="i"
 				@click="state = i"
@@ -22,15 +26,14 @@ export default {
 			</button>
 			<button
 				type="button"
-				class="btn btn-light"
-				v-show="state >= 0"
+				class="btn"
+				:class="state >= 0 ? 'btn-secondary' : 'btn-outline-secondary'"
 				@click="question"
 			>
-				далее
+				{{ state >= 0 ? 'дальше' : 'не знаю' }}
 			</button>
 		</div>
 	</div>
-</div>
 	`,
 	data() {
 		return {
@@ -38,7 +41,7 @@ export default {
 
 			words: [],
 			index: 0,
-			state: -1,
+			state: 0
 		};
 	},
 	mounted() {
@@ -47,7 +50,7 @@ export default {
 			.then(text => {
 				this.dic = text
 					.split('\r\n')
-					.map(str => str.split(';'))
+					.map(str => str.split(';').map(str => str.split('?')[0]))
 					.map(arr => ({ tr: arr[0], ru: arr[1] }))
 					.filter(obj => obj.ru && obj.tr);
 
@@ -68,12 +71,16 @@ export default {
 						: 'btn-outline-secondary';
 		},
 		question() {
-			this.words = Array.from({ length: 4 })
+			if (this.state < 0) {
+				this.state = this.index;
+			} else {
+				this.words = Array.from({ length: 4 })
 				.map(_ => draw(this.dic));
-			this.index = draw(this.words.length);
-			this.state = -1;
+				this.index = draw(this.words.length);
+				this.state = -1;
+			}
 
-			console.log(this.words, this.index);
+//			console.log(this.words, this.index);
 		}
 	}
 }
