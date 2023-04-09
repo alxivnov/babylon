@@ -15,7 +15,7 @@ export default {
 			</div>
 			<button
 				type="button"
-				class="btn rounded-3"
+				class="btn btn-lg rounded-4"
 				:class="color(i)"
 				:disabled="state >= 0"
 				v-for="(word, i) in words"
@@ -24,9 +24,10 @@ export default {
 			>
 				{{ word.ru }}
 			</button>
+			<hr>
 			<button
 				type="button"
-				class="btn"
+				class="btn btn-lg rounded-4"
 				:class="state >= 0 ? 'btn-secondary' : 'btn-outline-secondary'"
 				@click="question"
 			>
