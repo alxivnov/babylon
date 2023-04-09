@@ -6,9 +6,9 @@ const draw = (arg) => {
 
 export default {
 	template: /*html*/`
-	<div class="row" style="height: 100vh">
-		<div class="d-grid gap-3 col-lg-4 mx-auto my-auto">
-			<div class="hstack">
+	<div class="row col-lg-6 mx-auto" style="height: 100dvh">
+		<div class="vstack gap-3 mb-3">
+			<div class="hstack my-auto">
 				<span class="fs-1 text-center" style="width: 48px;">{{ state < 0 ? '🙂' : state == index ? '🤩' : '😭' }}</span>
 				<h1 class="mx-auto">{{ this.words.length > this.index && words[index].tr }}</h1>
 				<span style="width: 48px;"></span>
@@ -24,7 +24,7 @@ export default {
 			>
 				{{ word.ru }}
 			</button>
-			<hr>
+			<hr class="my-0">
 			<button
 				type="button"
 				class="btn btn-lg rounded-4"
@@ -76,7 +76,7 @@ export default {
 				this.state = this.index;
 			} else {
 				this.words = Array.from({ length: 4 })
-				.map(_ => draw(this.dic));
+					.map(_ => draw(this.dic));
 				this.index = draw(this.words.length);
 				this.state = -1;
 			}
