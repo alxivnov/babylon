@@ -1,0 +1,518 @@
+;
+pazartesi;понедельник
+salı;вторник
+çarşamba;среда
+perşembe;четверг
+cuma;пятница
+cumartesi;суббота
+pazar;воскресенье
+ocak;январь
+şubat;февраль
+mart;март
+nisan;апрель
+mayıs;май
+haziran;июнь
+temmuz;июль
+aǧustos;август
+eylül;сентябрь
+ekim;октябрь
+kasım;ноябрь
+aralık;декабрь
+baba;отец
+anne;мать
+abi;старший брат
+abla;старшая сестра
+kardeş;младший брат
+kız kardeş;младшая сестра
+dede;дедушка по линии отца
+nene;бабушка по линии отца
+büyükbaba;дедушка по линии матери
+büyükanne;бабушка по линии матери
+torun;внук
+kız torun;внучка
+amca;дядя (брат отца)
+hala;тётя (сестра отца)
+dayi;дядя (брат матери)
+teyze;тётя (сестра матери)
+yeǧen;племянник / племянница
+erkek yeǧen;племянник
+kız yeǧen;племянница
+kuzen;кузен / кузина
+eşi;супруг / супруга
+koca;муж
+karı;жена
+kız;дочь
+oǧul;сын
+önceki gün;позавчера
+dün;вчера
+bugün;сегодня
+yarın;завтра
+öbür gün;послезавтра
+sabah;утро
+gün;день
+öǧle;полдень
+akşam;вечер / вечером
+gece;ночь / ночью
+öǧleyin;в полдень
+gündüz;днём
+gece yarısında;в полночь
+şimdi;сейчас
+aktör;актёр
+aktris;актриса
+aşçı;повар
+asker;солдат
+atlet;спортсмен
+avukat;адвокат
+çiftçi;фермер
+dansçı;танцор
+denizci;моряк
+dişçi;дантист
+doktor;врач
+fotografçı;фотограф
+futbolcu;футболист
+garson;официант
+gazeteci;журналист
+hakem;судья
+hemşire;медсестра
+heykeltraş;скульптор
+inşaatçı;строитель
+işadamı;бизнесмен
+işçi;рабочий
+kompozitor;композитор
+kuaför;парикмахер
+makinist;слесарь
+memur;чиновник
+mimar;архитектор
+muhabir;репортёр
+muhasebeci;бухгалтер
+mühendis;инженер
+müzisyen;музыкант
+öǧretmen;учитель
+pilot;пилот
+polis;полицейский
+politikacı;политик
+postacı;почтальон
+psikolog;психолог
+ressam;художник
+şarkıcı;певец
+sekreter;секретарь
+sürücü;водитель
+tamirci;механик
+teknisyen;техник
+tercüman;переводчик
+yazar;писатель
+anlatmak;объяснять
+cevap;ответ
+defter;записная книжка
+ders;"урок; занятие"
+diploma;диплом
+dizüstü bilgisayar;ноутбук
+kaǧıt;бумага
+kalem;ручка
+kitap;книга
+kurşun kalem;карандаш
+kütüphane;библиотека
+masa;стол
+öǧrenci;студент
+öǧretmen;учитель
+okul;школа
+okumak;"читать; учиться"
+sandalye;стул
+sayfa;страница
+sınıf;класс
+sıra;парта
+soru;вопрос
+sözlük;словарь
+tahta;доска
+tebeşir;мел
+tükenmez kalem;шариковая ручка
+üniversite;университет
+beyaz;белый
+gri;серый
+siyah;чёрный
+kahverengi;коричневый
+pembe;розовый
+kırmızı;красный
+portakal rengi;оранжевый
+sarı;жёлтый
+yeşil;зелёный
+mavi;синий
+mor;фиолетовый
+açık, temiz;ясный
+karanlık;тёмный
+hafif;лёгкий
+aǧır;тяжёлый
+boş;пустой
+tam, noksansız, dolu;полный
+büyük;большой
+ufak;маленький
+doǧru;правильный
+yanlış;неправильный
+erken;ранний
+geç;поздний
+genç;молодой
+yeni;новый
+eski, yaşlı;старый
+güçlü;сильный
+zayıf;слабый
+gürültülü;шумный
+sessiz;бесшумный
+hızlı;быстрый
+yavaş;медленный
+iyi;хороший
+kötü;плохой
+kolay, basit;простой, лёгкий
+zor;трудный
+uzun;длинный
+kurs;короткий
+ucuz;дешёвый
+pahalı;дорогой
+sert;твёрдый
+yumuşak;мягкий
+ilginç;интересный
+sıkıcı;скучный
+kuru;сухой
+ıslak;сырой
+temiz;чистый
+kirli;грязный
+yerel;местный
+yorgun;уставший
+büyük;большой
+küçük;маленький
+uzun;длинный
+kısa;короткий
+geniş;широкий
+dar;узкий
+uzun, yüksel;высокий
+derin;глубокий
+kalın;толстый
+ince;тонкий
+düz;плоский
+dairesel, yuvarlak;круглый
+üçgen şeklinde;треугольный
+kare;квадратный
+taze;свежий
+açı;горький
+baharatlı;острый
+ekşi;кислый
+tatlı;сладкий
+tuzlu;солёный
+bisiklet;велосипед
+motosiklet;мотоцикл
+araba;машина
+taksi;такси
+dolmuş;маршрута
+otobüs;автобус
+tramvay;трамвай
+metro;метро
+tren;поезд
+gar;железнодорожный вокзал
+otogar;автовокзал
+kamyon;грузовик
+minibüs;пикап
+römork;прицеп
+kayık;лодка
+tekne;корабль
+feribot;паром
+uçak;самолет
+helikopter;вертолёт
+sıfır;0
+bir;1
+iki;2
+üç;3
+dört;4
+beş;5
+altı;6
+yedi;7
+sekiz;8
+dokuz;9
+on;10
+yirmi;20
+otuz;30
+kırk;40
+elli;50
+altmış;60
+yetmiş;70
+seksen;80
+doksan;90
+yüz;100
+bin;1000
+bir milyon;1 000 000
+bir milyar;1 000 000 000
+saniye;секунда
+dakika;минута
+yarım saat;полчаса
+saat;час
+çeyrek;четверть
+buçuk;половина
+baş;голова
+yüz;лицо
+saç;волос
+kaş;бровь
+göz;глаз
+burun;нос
+kulak;ухо
+şakak;висок
+aǧız;рот
+dudak;губа
+dil;язык
+diş;зуб
+çene;подбородок
+boyun;шея
+boǧaz;горло
+kol;рука
+dirsek;локоть
+el;кисть руки
+avuç içi;ладонь
+parmak;палец
+tırnak;ноготь
+bacak;нога
+diz;колено
+tılsım;лодыжка
+ayak;стопа
+cilt;кожа
+vücut;тело
+omuz;плечо
+göǧüs;грудь
+yürek;сердце
+göbek;живот
+kasık;пах
+sırt;спина
+kalça;ягодица
+topuk;пятка
+ne?;что?
+nasıl?;как?
+kime?;кому?
+nereden?;откуда?
+nereye?;куда?
+nerede?;где?
+kim?;кто?
+ne zaman?;когда?
+neden? / niye?;почему?
+ne kadar?;сколько?
+kimin?;чей?
+hangi?;какой?
+hangisi?;который?
+açmak;открывать
+almak;"покупать; брать"
+anlamak;понимать
+anlatmak;объяснять, рассказывать
+aramak;"искать; звонить"
+bakmak;смотреть
+başlamak;начинать
+beklemek;ждать
+bilmek;знать
+binmek;садиться в транспорт
+bırakmak;бросать, оставлять
+bitmek;заканчиваться
+bozmak;ломать, повреждать
+bozulmak;испортиться, ломаться
+bulmak;находить
+çaǧırmak;приглашать, звать
+çalışmak;работать
+çalmak;"играть на м. ин.; стучать в д.; воровать"
+cevap vermek;отвечать (давать ответ)
+çıkmak;выходить
+çizmek;рисовать, чертить
+dans etmek;танцевать
+deǧişmek;мінять
+devam etmek;продолжать
+dilemek;просить
+dinlemek;слушать
+dinlenmek;отдыхать
+doǧmak;рождаться
+dönmek;поворачиваться, крутиться
+durmak;стоять
+düşünmek;думать
+duymak;слышать
+etmek;делать, сделать
+gecikmek;опаздывать
+geçmek;переходить
+getirmek;приносить, приводить
+gezmek;гулять
+girmek;входить
+gitmek;идти
+giyinmek;одеваться, наряжаться
+giymek;надевать
+görmek;видеть
+görüşmek;видеться, встречаться
+gülmek;смеяться
+hatırlamak;вспоминать
+hazırlamak;готовить, подготавливать
+içmek;пить
+istemek;хотеть
+kalkmak;"вставать; подниматься"
+kapatmak;закрывать
+karşılamak;встречать
+kaybetmek;потерять
+kesmek;резать
+kızmak;сердиться
+konuşmak;говорить
+koşmak;бежать
+koymak;класть
+kullanmak;"водить машину; использовать"
+okumak;читать, учиться
+olmak;быть
+oturmak;сидеть
+oynamak;играть
+ödemek;платить
+öǧretmek;преподавать (учить кого либо)
+ölmek;умереть
+öpmek;целовать
+pişirmek;варить, готовить (пищу)
+satmak;продавать
+seçmek;выбирать
+sevmek;любить
+sormak;спрашивать
+söylemek;говорить
+telefon etmek;звонить по телефону
+temizlemek;чистить
+tutmak;держать
+unutmak;забывать
+uyumak;спать
+varmak;приходить, достигать
+vermek;давать
+yapmak;делать
+yardım etmek;помогать
+yaşamak;жить
+yazmak;писать
+yemek;кушать
+yıkamak;стирать, мыть
+yorulmak;уставать
+yüzmek;плавать
+ayran;айран
+bal;мёд
+bisküvi;печенье, бисквит
+çikolata;шоколад
+dana;говядина
+dondurma;мороженое
+ekmek;хлеб
+etler;мясо
+inek sütü;коровье молоко
+jambon;ветчина
+kahve;кофе
+kakao;какао
+kaşar;сыр (жёлтый)
+kefir;кефир
+kek;кекс
+krema;сливки
+kurabiye;печенье
+kuzu;баранина
+makarna;макароны
+midye;мидия
+nohut;нут
+pasta;торт, пирожное, выпечка
+pastırma;бастурма
+peynir;сыр
+pirinç;рис
+puding;пудинг
+ringa balıǧı;сельдь
+şeker;сахар, конфеты
+siyah çay;чёрный чай
+sosis;сосиски
+süt;молоко
+tereyaǧı;сливочное масло
+uskumru;скумбрия
+yeşil ¸ay;зелёный чай
+yoǧurt;йогурт
+yulaf;овсянка
+yumurta;яйца
+atkı;шарф
+ayakkabı;обувь
+bluz;блузка
+ceket;пиджак
+çorap;носок, чулок
+don;трусы, нижнее бельё
+albs;платье
+aşofman;спортивный костюм
+etek;юбка
+gocuk;дублёнка
+gömlek;рубашка
+hırka;кофта
+jean;джинсы
+kaban;куртка (пиджак, пальто)
+kaşkol;шарф
+kravat;галстук
+külotlu çorap;колготки
+kürk;шуба
+mayo;купальник, плавки
+mont;куртка (пиджак, пальто)
+pantolon;брюки
+şort;шорты
+süveter;свитер
+takım;костюм (комплект одежды)
+toşört;футболка
+trençkot;плащ
+banka;банк
+cami;мечеть
+daǧ;гора
+dükkan;магазин
+durak;остановка
+ev;дом
+hastane;больница
+istasyonu;станция, вокзал
+kafe;кафе
+kavşaǧı;перекрёсток
+kilise;церковь
+köprü;мост
+merkezi;центр
+meydan;площадь
+nehir;река
+okul;школа
+orman;лес
+otelin;гостиница
+park;парк
+pazar;рынок
+polis;полиция
+postane;почта
+sinema;кинотеатр
+sokak;улица
+tiyatro;театр
+yer;место
+açık;открыто
+açıl çıkış;аварийный выход
+asansör;лифт
+bayan;для женщин
+bozuk;не работает
+çekınız;на себя
+çıkış;выход
+danışma;информация
+gırılmez;вход воспрещён
+gırış;вход
+gırış bıletletı;входные билеты
+gırış katı;первый этаж
+hastane;больница
+ıçecek su;питьевая вода
+ıtınız;от себя
+kapalı;закрыто
+kıralamak;сдаётся
+ödeme;касса
+satılık;продаётся
+sıcak;горячий
+sıgara ıçmeyınız;не курить
+soǧuk;холодный
+ucuzluk;распродажа
+zıl;звонить
+anahtar;ключ
+apartman;многоквартирный дом, квартира
+asansör;лифт
+baca;труба
+bahçe;сад
+balkon;балкон
+bina;здание
+çatı;крыша
+daire;квартира
+duvar;стена
+garaj;гараж
+havuz;бассейн
+kapı;дверь
+kat;этаж
+merdiven;лестница
+oda;комната
+pencere;окно
+sehpa;журнальный столик
+taban;пол
+tavan;потолок
+boyamak;красить
+temizlemek;убираться
+yaşamak;жить
