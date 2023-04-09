@@ -7,12 +7,12 @@ const draw = (arg) => {
 export default {
 	template: /*html*/`
 	<div class="row col-lg-6 mx-auto" style="height: 100dvh">
-		<div class="vstack gap-3 mb-3">
-			<div class="hstack my-auto">
-				<span class="fs-1 text-center" style="width: 48px;">{{ state < 0 ? '🙂' : state == index ? '🤩' : '😭' }}</span>
-				<h1 class="mx-auto">{{ this.words.length > this.index && words[index].tr }}</h1>
-				<span style="width: 48px;"></span>
-			</div>
+		<div class="vstack gap-3 mt-2 mb-3">
+			<h1 class="hstack gap-3">
+				<span>{{ state < 0 ? '🙂' : state == index ? '🤩' : '😭' }}</span>
+				<span class="ms-auto">{{ pass }} / {{ pass + fail }}</h1>
+			</h1>
+			<h1 class="mx-auto my-auto">{{ this.words.length > this.index && words[index].tr }}</h1>
 			<button
 				type="button"
 				class="btn btn-lg rounded-4"
@@ -20,7 +20,7 @@ export default {
 				:disabled="state >= 0"
 				v-for="(word, i) in words"
 				:key="i"
-				@click="state = i"
+				@click="answer(i)"
 			>
 				{{ word.ru }}
 			</button>
@@ -42,7 +42,10 @@ export default {
 
 			words: [],
 			index: 0,
-			state: 0
+			state: 0,
+
+			pass: 0,
+			fail: 0
 		};
 	},
 	mounted() {
@@ -82,6 +85,14 @@ export default {
 			}
 
 //			console.log(this.words, this.index);
+		},
+		answer(i) {
+			this.state = i;
+
+			if (this.state == this.index)
+				this.pass++;
+			else
+				this.fail++;
 		}
 	}
 }
