@@ -17,13 +17,17 @@ export default {
 				v-for="(word, i) in words"
 				:key="i"
 				@click="state = i"
-			>{{ word.ru }}</button>
+			>
+				{{ word.ru }}
+			</button>
 			<button
 				type="button"
 				class="btn btn-light"
 				v-show="state >= 0"
 				@click="question"
-			>далее</button>
+			>
+				далее
+			</button>
 		</div>
 	</div>
 </div>
@@ -38,7 +42,7 @@ export default {
 		};
 	},
 	mounted() {
-		fetch('../data/turkish.csv')
+		fetch('./data/turkish.csv')
 			.then(res => res.text())
 			.then(text => {
 				this.dic = text
