@@ -1,3 +1,7 @@
+import ext from './ext.js';
+
+ext();
+
 const draw = (arg) => {
 	return (Array.isArray(arg))
 		? arg[Math.floor(Math.random() * arg.length)]
@@ -9,7 +13,7 @@ export default {
 	<div class="row col-lg-6 mx-auto" style="height: 100dvh">
 		<div class="vstack gap-3 mt-2 mb-3">
 			<h1 class="hstack gap-3">
-				<span>{{ state < 0 ? '🙂' : state == index ? '🤩' : '😭' }}</span>
+				<span>{{ emoji() }}</span>
 				<span class="ms-auto">{{ pass }} / {{ pass + fail }}</span>
 			</h1>
 			<h1 class="mx-auto my-auto">{{ this.words.length > this.index && words[index].tr }}</h1>
@@ -45,7 +49,13 @@ export default {
 			state: 0,
 
 			pass: 0,
-			fail: 0
+			fail: 0,
+
+			emojis: {
+				def: '🙂',
+				pos: [ '😀', '🥹', '😅', '😇', '😉', '🧐', '😎', '🤩', '🥳', '😏' ],
+				neg: [ '😞', '😖', '😫', '😢', '😭', '😤', '😠', '🤬', '🤯', '😨' ]
+			}
 		};
 	},
 	mounted() {
@@ -56,14 +66,20 @@ export default {
 			.then(text => {
 				this.dic = text
 					.split('\r\n')
-					.map(str => separators.reduce((prev, curr) => prev || str.includes(curr) && str.split(curr), null).map(str => str.split('?')[0]))
+					.map(str => separators.reduce((prev, curr) => prev || str.includes(curr) && str.split(curr), null).map(str => str.trim('"?')))
 					.map(arr => ({ tr: arr[0], ru: arr[1] }))
 					.filter(obj => obj.ru && obj.tr);
 
 				this.question();
 			});
+
+			this.pass = +window.localStorage.getItem('pass');
+			this.fail = +window.localStorage.getItem('fail');
 	},
 	methods: {
+		emoji() {
+			return this.state < 0 ? this.emojis.def : draw(this.state == this.index ? this.emojis.pos : this.emojis.neg);
+		},
 		color(i) {
 			// not answered
 			return this.state < 0
@@ -91,10 +107,15 @@ export default {
 		answer(i) {
 			this.state = i;
 
-			if (this.state == this.index)
+			if (this.state == this.index) {
 				this.pass++;
-			else
+
+				window.localStorage.setItem('pass', this.pass);
+			} else {
 				this.fail++;
+
+				window.localStorage.setItem('fail', this.fail);
+			}
 		}
 	}
 }
