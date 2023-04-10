@@ -10,7 +10,7 @@ export default {
 		<div class="vstack gap-3 mt-2 mb-3">
 			<h1 class="hstack gap-3">
 				<span>{{ state < 0 ? '🙂' : state == index ? '🤩' : '😭' }}</span>
-				<span class="ms-auto">{{ pass }} / {{ pass + fail }}</h1>
+				<span class="ms-auto">{{ pass }} / {{ pass + fail }}</span>
 			</h1>
 			<h1 class="mx-auto my-auto">{{ this.words.length > this.index && words[index].tr }}</h1>
 			<button
@@ -49,12 +49,14 @@ export default {
 		};
 	},
 	mounted() {
+		let separators = ['";"', '";', ';"', ';'];
+
 		fetch('./data/turkish.csv')
 			.then(res => res.text())
 			.then(text => {
 				this.dic = text
 					.split('\r\n')
-					.map(str => str.split(';').map(str => str.split('?')[0]))
+					.map(str => separators.reduce((prev, curr) => prev || str.includes(curr) && str.split(curr), null).map(str => str.split('?')[0]))
 					.map(arr => ({ tr: arr[0], ru: arr[1] }))
 					.filter(obj => obj.ru && obj.tr);
 
