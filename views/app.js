@@ -2,11 +2,35 @@ import ext from './ext.js';
 
 ext();
 
-const draw = (arg) => {
+const draw = (arg, count) => {
+	if (count > 1) {
+		let arr = [];
+		while (arr.length < count) {
+			let drawn = draw(arg);
+			if (!arr.includes(drawn))
+				arr.push(drawn);
+		}
+		return arr;
+	}
+
 	return (Array.isArray(arg))
 		? arg[Math.floor(Math.random() * arg.length)]
 		: Math.floor(Math.random() * arg);
 };
+
+const watchLocalStorage = (...keys) => {
+	return keys.reduce((prev, curr) => {
+		prev[curr] = (value) => window.localStorage.setItem(curr, value);
+		return prev;
+	}, {});
+};
+
+// Group words: noun/verb/adj
+// Alter trans direction: odd/even
+// Store per word: pass/fail, time/pass
+// Show confetti
+// Start lesson: random/repeat
+// Parse CSV
 
 export default {
 	template: /*html*/`
@@ -58,6 +82,9 @@ export default {
 			}
 		};
 	},
+	watch: {
+		...watchLocalStorage('pass', 'fail')
+	},
 	mounted() {
 		let separators = ['";"', '";', ';"', ';'];
 
@@ -96,8 +123,7 @@ export default {
 			if (this.state < 0) {
 				this.state = this.index;
 			} else {
-				this.words = Array.from({ length: 4 })
-					.map(_ => draw(this.dic));
+				this.words = draw(this.dic, 4);
 				this.index = draw(this.words.length);
 				this.state = -1;
 			}
@@ -109,12 +135,8 @@ export default {
 
 			if (this.state == this.index) {
 				this.pass++;
-
-				window.localStorage.setItem('pass', this.pass);
 			} else {
 				this.fail++;
-
-				window.localStorage.setItem('fail', this.fail);
 			}
 		}
 	}
