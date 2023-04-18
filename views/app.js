@@ -30,13 +30,13 @@ const trVerbSuffixes = [ 'mak', 'mek' ];
 
 // Parse CSV
 // Show confetti
-// Store per word: pass/fail, time/pass
+// Store per word: total/time * draw/pass/fail
 // Start lesson: random/repeat
 
 export default {
 	template: /*html*/`
 	<div class="row col-lg-6 mx-auto" style="height: 100dvh">
-		<div class="vstack gap-3 mt-4 mb-5">
+		<div class="vstack gap-3 mt-3 mb-4">
 			<h1 class="hstack gap-3">
 				<span>{{ emoji() }}</span>
 				<span class="ms-auto">{{ pass }} / {{ pass + fail }}</span>
@@ -55,6 +55,7 @@ export default {
 			</button>
 			<hr class="my-0">
 			<button
+				id="question"
 				type="button"
 				class="btn btn-lg rounded-4"
 				:class="state >= 0 ? 'btn-secondary' : 'btn-outline-secondary'"
@@ -151,6 +152,8 @@ export default {
 				this.state = -1;
 				this.from = this.total % 2 === 0 ? 'tr' : 'ru';
 				this.to = this.total % 2 !== 0 ? 'tr' : 'ru';
+
+				new bootstrap.Button('#question').toggle();
 			}
 
 //			console.log(this.words, this.index);
