@@ -107,7 +107,7 @@ export default {
 					.map(arr => {
 						let tr = arr[0];
 						let ru = arr[1];
-						let partOfSpeech = ru.endsWith('ть') && tr.endsWith(trVerbSuffixes)
+						let partOfSpeech = ru.split(' ').some(word => word.endsWith(['ть', 'ться'])) && tr.endsWith(trVerbSuffixes)
 							? 1
 							: ru.endsWith('й') && ruVowels.includes(ru[ru.length - 2])
 								? 2
@@ -153,7 +153,7 @@ export default {
 				this.from = this.total % 2 === 0 ? 'tr' : 'ru';
 				this.to = this.total % 2 !== 0 ? 'tr' : 'ru';
 
-				new bootstrap.Button('#question').toggle();
+//				new bootstrap.Button('#question').toggle();
 			}
 
 //			console.log(this.words, this.index);
