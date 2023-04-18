@@ -2,12 +2,12 @@ import ext from './ext.js';
 
 ext();
 
-const draw = (arg, count) => {
-	if (count > 1) {
+const draw = (arg, unique, except) => {
+	if (unique > 1) {
 		let arr = [];
-		while (arr.length < count) {
+		while (arr.length < unique) {
 			let drawn = draw(arg);
-			if (!arr.includes(drawn))
+			if (!arr.includes(drawn) && !except?.includes(drawn))
 				arr.push(drawn);
 		}
 		return arr;
@@ -25,22 +25,23 @@ const watchLocalStorage = (...keys) => {
 	}, {});
 };
 
-// Group words: noun/verb/adj
-// Alter trans direction: odd/even
-// Store per word: pass/fail, time/pass
-// Show confetti
-// Start lesson: random/repeat
+const ruVowels = [ 'у', 'е', 'ы', 'а', 'о', 'э', 'ё', 'я', 'и', 'ю' ];
+const trVerbSuffixes = [ 'mak', 'mek' ];
+
 // Parse CSV
+// Show confetti
+// Store per word: pass/fail, time/pass
+// Start lesson: random/repeat
 
 export default {
 	template: /*html*/`
 	<div class="row col-lg-6 mx-auto" style="height: 100dvh">
-		<div class="vstack gap-3 mt-2 mb-3">
+		<div class="vstack gap-3 mt-4 mb-5">
 			<h1 class="hstack gap-3">
 				<span>{{ emoji() }}</span>
 				<span class="ms-auto">{{ pass }} / {{ pass + fail }}</span>
 			</h1>
-			<h1 class="mx-auto my-auto">{{ this.words.length > this.index && words[index].tr }}</h1>
+			<h1 class="mx-auto my-auto">{{ this.words.length > this.index && words[index][from] }}</h1>
 			<button
 				type="button"
 				class="btn btn-lg rounded-4"
@@ -50,7 +51,7 @@ export default {
 				:key="i"
 				@click="answer(i)"
 			>
-				{{ word.ru }}
+				{{ word[to] }}
 			</button>
 			<hr class="my-0">
 			<button
@@ -67,10 +68,13 @@ export default {
 	data() {
 		return {
 			dic: [],
+			grouped: [ [], [], [] ],
 
 			words: [],
 			index: 0,
 			state: 0,
+			from: 'tr',
+			to: 'ru',
 
 			pass: 0,
 			fail: 0,
@@ -81,6 +85,11 @@ export default {
 				neg: [ '😞', '😖', '😫', '😢', '😭', '😤', '😠', '🤬', '🤯', '😨' ]
 			}
 		};
+	},
+	computed: {
+		total() {
+			return this.pass + this.fail;
+		}
 	},
 	watch: {
 		...watchLocalStorage('pass', 'fail')
@@ -94,8 +103,21 @@ export default {
 				this.dic = text
 					.split('\r\n')
 					.map(str => separators.reduce((prev, curr) => prev || str.includes(curr) && str.split(curr), null).map(str => str.trim('"?')))
-					.map(arr => ({ tr: arr[0], ru: arr[1] }))
+					.map(arr => {
+						let tr = arr[0];
+						let ru = arr[1];
+						let partOfSpeech = ru.endsWith('ть') && tr.endsWith(trVerbSuffixes)
+							? 1
+							: ru.endsWith('й') && ruVowels.includes(ru[ru.length - 2])
+								? 2
+								: 0;
+
+						return { tr, ru, partOfSpeech };
+					})
 					.filter(obj => obj.ru && obj.tr);
+				this.dic.forEach(word => {
+					this.grouped[word.partOfSpeech].push(word);
+				});
 
 				this.question();
 			});
@@ -123,9 +145,12 @@ export default {
 			if (this.state < 0) {
 				this.state = this.index;
 			} else {
-				this.words = draw(this.dic, 4);
+				let partOfSpeech = draw(this.dic).partOfSpeech;
+				this.words = draw(this.grouped[partOfSpeech], 4);
 				this.index = draw(this.words.length);
 				this.state = -1;
+				this.from = this.total % 2 === 0 ? 'tr' : 'ru';
+				this.to = this.total % 2 !== 0 ? 'tr' : 'ru';
 			}
 
 //			console.log(this.words, this.index);

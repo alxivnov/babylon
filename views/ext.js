@@ -60,4 +60,17 @@ export default () => {
 	String.prototype.trimEnd = function (charlist) {
 		return this.trim(charlist, +1);
 	};
+
+	let _startsWith = String.prototype.startsWith;
+	String.prototype.startsWith = function (searchString, position) {
+		return Array.isArray(searchString)
+			? searchString.some(prefix => this.endsWith(prefix, position))
+			: _startsWith.call(this, searchString, position);
+	};
+	let _endsWith = String.prototype.endsWith;
+	String.prototype.endsWith = function (searchString, endPosition) {
+		return Array.isArray(searchString)
+			? searchString.some(suffix => this.endsWith(suffix, endPosition))
+			: _endsWith.call(this, searchString, endPosition);
+	};
 }
