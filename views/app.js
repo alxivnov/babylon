@@ -36,7 +36,7 @@ const trVerbSuffixes = [ 'mak', 'mek' ];
 export default {
 	template: /*html*/`
 	<div class="row col-lg-6 mx-auto" style="height: 100dvh">
-		<div class="vstack gap-3 mt-3 mb-4">
+		<div class="vstack gap-3 mt-3 mb-5">
 			<h1 class="hstack gap-3">
 				<span>{{ emoji() }}</span>
 				<span class="ms-auto">{{ pass }} / {{ pass + fail }}</span>
