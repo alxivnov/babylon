@@ -18,12 +18,12 @@ const draw = (arg, unique, except) => {
 		: Math.floor(Math.random() * arg);
 };
 
-const watchLocalStorage = (...keys) => {
-	return keys.reduce((prev, curr) => {
-		prev[curr] = (value) => window.localStorage.setItem(curr, value);
-		return prev;
-	}, {});
-};
+// const watchLocalStorage = (...keys) => {
+// 	return keys.reduce((prev, curr) => {
+// 		prev[curr] = (value) => window.localStorage.setItem(curr, value);
+// 		return prev;
+// 	}, {});
+// };
 
 const ruVowels = [ 'у', 'е', 'ы', 'а', 'о', 'э', 'ё', 'я', 'и', 'ю' ];
 const trVerbSuffixes = [ 'mak', 'mek' ];
@@ -84,6 +84,11 @@ export default {
 				def: '🙂',
 				pos: [ '😀', '🥹', '😅', '😇', '😉', '🧐', '😎', '🤩', '🥳', '😏' ],
 				neg: [ '😞', '😖', '😫', '😢', '😭', '😤', '😠', '🤬', '🤯', '😨' ]
+			},
+
+			sounds: {
+				pos: new Audio('../data/Portal2_sfx_button_positive.m4a'),
+				neg: new Audio('../data/Portal2_sfx_button_negative.m4a')
 			}
 		};
 	},
@@ -93,7 +98,17 @@ export default {
 		}
 	},
 	watch: {
-		...watchLocalStorage('pass', 'fail')
+		// ...watchLocalStorage('pass', 'fail'),
+		pass(value) {
+			window.localStorage.setItem('pass', value);
+
+			this.sounds.pos.play();
+		},
+		fail(value) {
+			window.localStorage.setItem('fail', value);
+
+			this.sounds.neg.play();
+		}
 	},
 	mounted() {
 		let separators = ['";"', '";', ';"', ';'];
