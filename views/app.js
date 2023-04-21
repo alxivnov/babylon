@@ -87,8 +87,8 @@ export default {
 			},
 
 			sounds: {
-				pos: new Audio('../data/Portal2_sfx_button_positive.m4a'),
-				neg: new Audio('../data/Portal2_sfx_button_negative.m4a')
+				pos: new Audio('./data/Portal2_sfx_button_positive.m4a'),
+				neg: new Audio('./data/Portal2_sfx_button_negative.m4a')
 			}
 		};
 	},
