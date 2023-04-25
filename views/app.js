@@ -120,16 +120,15 @@ export default {
 							: ru.endsWith('й') && ruVowels.includes(ru[ru.length - 2])
 								? 2
 								: 0;
-						let s = stats[i] || [];
 
 						return {
 							tr,
 							ru,
 							partOfSpeech,
 							stats: {
-								draw: { time: s[0] || 0, count: s[1] || 0 },
-								pass: { time: s[2] || 0, count: s[3] || 0 },
-								fail: { time: s[4] || 0, count: s[5] || 0 }
+								draw: { time: stats[6 * i + 0] || 0, count: stats[6 * i + 1] || 0 },
+								pass: { time: stats[6 * i + 2] || 0, count: stats[6 * i + 3] || 0 },
+								fail: { time: stats[6 * i + 4] || 0, count: stats[6 * i + 5] || 0 }
 							}
 						};
 					})
@@ -196,7 +195,7 @@ export default {
 				word.stats.fail.count++;
 			}
 
-			window.localStorage.setItem('stats', JSON.stringify(this.dic.map(word => [
+			window.localStorage.setItem('stats', JSON.stringify(this.dic.flatMap(word => [
 				word.stats.draw.time,
 				word.stats.draw.count,
 				word.stats.pass.time,
