@@ -171,13 +171,33 @@ export default {
 						? 'btn-danger'
 						: 'btn-outline-secondary';
 		},
+		draw(words, count, index, cache) {
+			let probs = cache || words.reduce((prev, { stats }) => {
+				prev.push((prev.length ? prev[prev.length - 1] : 0) + 1 - stats.pass.count / Math.max(2, stats.total()));
+				return prev;
+			}, []);
+
+			if (count > 1) {
+				let arr = [];
+				while (arr.length < count) {
+					let drawn = this.draw(words, 1, index, probs);
+					if (!arr.includes(drawn))
+						arr.push(drawn);
+				}
+				return arr;
+			}
+
+			let r = Math.random() * probs[probs.length - 1];
+			let i = probs.findIndex(prob => prob >= r);
+			return index ? i : words[i];
+		},
 		question() {
 			if (this.state < 0) {
 				this.state = this.index;
 			} else {
-				let partOfSpeech = draw(this.dic).partOfSpeech;
-				this.words = draw(this.grouped[partOfSpeech], 4);
-				this.index = draw(this.words.length);
+				let partOfSpeech = this.draw(this.dic).partOfSpeech;
+				this.words = this.draw(this.grouped[partOfSpeech], 4);
+				this.index = this.draw(this.words, 1, true);
 				this.state = -1;
 				let total = this.words[this.index].stats.total();
 				this.from = total % 2 === 0 ? 'tr' : 'ru';
