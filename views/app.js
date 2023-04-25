@@ -28,9 +28,11 @@ const draw = (arg, unique, except) => {
 const ruVowels = [ 'у', 'е', 'ы', 'а', 'о', 'э', 'ё', 'я', 'и', 'ю' ];
 const trVerbSuffixes = [ 'mak', 'mek' ];
 
-// Parse CSV
+// Parse TSV
 // Show confetti
-// Store per word: total/time * draw/pass/fail
+// Integrate into Telegram
+
+// Choose vocabs
 // Start lesson: random/repeat
 
 export default {
@@ -89,8 +91,8 @@ export default {
 			},
 
 			sounds: {
-				pos: new Audio('./data/Portal2_sfx_button_positive.m4a'),
-				neg: new Audio('./data/Portal2_sfx_button_negative.m4a')
+				pos: new Audio('./data/Positive.m4a'),
+				neg: new Audio('./data/Negative.m4a')
 			}
 		};
 	},
