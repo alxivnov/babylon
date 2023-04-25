@@ -43,7 +43,7 @@ export default {
 					<span class="ms-auto">{{ stats.pass }} / {{ stats.total }}</span>
 				</h1>
 				<div class="progress mt-3" role="progressbar" aria-label="Learning progress" :aria-valuenow="stats.progress" aria-valuemin="0" aria-valuemax="100">
-					<div class="progress-bar bg-success" :style="{ width: stats.progress + '%' }"></div>
+					<div class="progress-bar overflow-visible bg-success" :style="{ width: stats.progress + '%' }">{{ Math.round(stats.progress * 100) / 100 + '%' }}</div>
 				</div>
 			</div>
 			<h1 class="mx-auto my-auto">{{ this.words.length > this.index && words[index][from] }}</h1>
@@ -99,13 +99,13 @@ export default {
 			let temp = this.dic.reduce((prev, { stats }) => {
 				prev.pass += stats.pass.count;
 				prev.fail += stats.fail.count;
-				prev.maxProgress += Math.min(2, stats.total());
+				prev.maxProgress += Math.max(2, stats.total());
 				return prev;
 			}, { pass: 0, fail: 0, maxProgress: 0 });
 			return {
 				...temp,
 				total: temp.pass + temp.fail,
-				progress: temp.pass / temp.maxProgress
+				progress: temp.pass / temp.maxProgress * 100
 			};
 		}
 	},
