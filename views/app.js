@@ -39,7 +39,7 @@ export default {
 		<div class="vstack gap-3 mt-3 mb-5">
 			<h1 class="hstack gap-3">
 				<span>{{ emoji() }}</span>
-				<span class="ms-auto">{{ pass }} / {{ pass + fail }}</span>
+				<span class="ms-auto">{{ stats.pass }} / {{ stats.total }}</span>
 			</h1>
 			<h1 class="mx-auto my-auto">{{ this.words.length > this.index && words[index][from] }}</h1>
 			<button
@@ -77,9 +77,6 @@ export default {
 			from: 'tr',
 			to: 'ru',
 
-			pass: 0,
-			fail: 0,
-
 			emojis: {
 				def: '🙂',
 				pos: [ '😀', '🥹', '😅', '😇', '😉', '🧐', '😎', '🤩', '🥳', '😏' ],
@@ -93,21 +90,13 @@ export default {
 		};
 	},
 	computed: {
-		total() {
-			return this.pass + this.fail;
-		}
-	},
-	watch: {
-		// ...watchLocalStorage('pass', 'fail'),
-		pass(value) {
-			window.localStorage.setItem('pass', value);
-
-			this.sounds.pos.play();
-		},
-		fail(value) {
-			window.localStorage.setItem('fail', value);
-
-			this.sounds.neg.play();
+		stats() {
+			let stats = this.dic.reduce((prev, curr) => {
+				prev.pass += curr.stats.pass.count;
+				prev.fail += curr.stats.fail.count;
+				return prev;
+			}, { pass: 0, fail: 0 });
+			return { ...stats, total: stats.pass + stats.fail };
 		}
 	},
 	mounted() {
@@ -116,10 +105,14 @@ export default {
 		fetch('./data/turkish.csv')
 			.then(res => res.text())
 			.then(text => {
+				let stats =
+					JSON.parse(window.localStorage.getItem('stats')) ||
+					[];
+
 				this.dic = text
 					.split('\r\n')
 					.map(str => separators.reduce((prev, curr) => prev || str.includes(curr) && str.split(curr), null).map(str => str.trim('"?')))
-					.map(arr => {
+					.map((arr, i) => {
 						let tr = arr[0];
 						let ru = arr[1];
 						let partOfSpeech = ru.split(' ').some(word => word.endsWith(['ть', 'ться'])) && tr.endsWith(trVerbSuffixes)
@@ -127,8 +120,18 @@ export default {
 							: ru.endsWith('й') && ruVowels.includes(ru[ru.length - 2])
 								? 2
 								: 0;
+						let s = stats[i] || [];
 
-						return { tr, ru, partOfSpeech };
+						return {
+							tr,
+							ru,
+							partOfSpeech,
+							stats: {
+								draw: { time: s[0] || 0, count: s[1] || 0 },
+								pass: { time: s[2] || 0, count: s[3] || 0 },
+								fail: { time: s[4] || 0, count: s[5] || 0 }
+							}
+						};
 					})
 					.filter(obj => obj.ru && obj.tr);
 				this.dic.forEach(word => {
@@ -137,9 +140,6 @@ export default {
 
 				this.question();
 			});
-
-			this.pass = +window.localStorage.getItem('pass');
-			this.fail = +window.localStorage.getItem('fail');
 	},
 	methods: {
 		emoji() {
@@ -165,8 +165,14 @@ export default {
 				this.words = draw(this.grouped[partOfSpeech], 4);
 				this.index = draw(this.words.length);
 				this.state = -1;
-				this.from = this.total % 2 === 0 ? 'tr' : 'ru';
-				this.to = this.total % 2 !== 0 ? 'tr' : 'ru';
+				this.from = this.stats.total % 2 === 0 ? 'tr' : 'ru';
+				this.to = this.stats.total % 2 !== 0 ? 'tr' : 'ru';
+
+				let time = Date.now();
+				this.words.forEach(word => {
+					word.stats.draw.time = time;
+					word.stats.draw.count++;
+				});
 
 //				new bootstrap.Button('#question').toggle();
 			}
@@ -176,11 +182,28 @@ export default {
 		answer(i) {
 			this.state = i;
 
+			let word = this.words[i];
+			let time = Date.now();
 			if (this.state == this.index) {
-				this.pass++;
+				this.sounds.pos.play();
+
+				word.stats.pass.time = time;
+				word.stats.pass.count++;
 			} else {
-				this.fail++;
+				this.sounds.neg.play();
+
+				word.stats.fail.time = time;
+				word.stats.fail.count++;
 			}
+
+			window.localStorage.setItem('stats', JSON.stringify(this.dic.map(word => [
+				word.stats.draw.time,
+				word.stats.draw.count,
+				word.stats.pass.time,
+				word.stats.pass.count,
+				word.stats.fail.time,
+				word.stats.fail.count,
+			])));
 		}
 	}
 }
