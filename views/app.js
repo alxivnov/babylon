@@ -37,10 +37,15 @@ export default {
 	template: /*html*/`
 	<div class="row col-lg-6 mx-auto" style="height: 100dvh">
 		<div class="vstack gap-3 mt-3 mb-5">
-			<h1 class="hstack gap-3">
-				<span>{{ emoji() }}</span>
-				<span class="ms-auto">{{ stats.pass }} / {{ stats.total }}</span>
-			</h1>
+			<div>
+				<h1 class="hstack gap-3">
+					<span>{{ emoji() }}</span>
+					<span class="ms-auto">{{ stats.pass }} / {{ stats.total }}</span>
+				</h1>
+				<div class="progress mt-3" role="progressbar" aria-label="Learning progress" :aria-valuenow="stats.progress" aria-valuemin="0" aria-valuemax="100">
+					<div class="progress-bar bg-success" :style="{ width: stats.progress + '%' }"></div>
+				</div>
+			</div>
 			<h1 class="mx-auto my-auto">{{ this.words.length > this.index && words[index][from] }}</h1>
 			<button
 				type="button"
@@ -91,12 +96,17 @@ export default {
 	},
 	computed: {
 		stats() {
-			let stats = this.dic.reduce((prev, curr) => {
-				prev.pass += curr.stats.pass.count;
-				prev.fail += curr.stats.fail.count;
+			let temp = this.dic.reduce((prev, { stats }) => {
+				prev.pass += stats.pass.count;
+				prev.fail += stats.fail.count;
+				prev.maxProgress += Math.min(2, stats.total());
 				return prev;
-			}, { pass: 0, fail: 0 });
-			return { ...stats, total: stats.pass + stats.fail };
+			}, { pass: 0, fail: 0, maxProgress: 0 });
+			return {
+				...temp,
+				total: temp.pass + temp.fail,
+				progress: temp.pass / temp.maxProgress
+			};
 		}
 	},
 	mounted() {
@@ -128,7 +138,10 @@ export default {
 							stats: {
 								draw: { time: stats[6 * i + 0] || 0, count: stats[6 * i + 1] || 0 },
 								pass: { time: stats[6 * i + 2] || 0, count: stats[6 * i + 3] || 0 },
-								fail: { time: stats[6 * i + 4] || 0, count: stats[6 * i + 5] || 0 }
+								fail: { time: stats[6 * i + 4] || 0, count: stats[6 * i + 5] || 0 },
+								total() {
+									return this.pass.count + this.fail.count;
+								}
 							}
 						};
 					})
@@ -164,8 +177,9 @@ export default {
 				this.words = draw(this.grouped[partOfSpeech], 4);
 				this.index = draw(this.words.length);
 				this.state = -1;
-				this.from = this.stats.total % 2 === 0 ? 'tr' : 'ru';
-				this.to = this.stats.total % 2 !== 0 ? 'tr' : 'ru';
+				let total = this.words[this.index].stats.total();
+				this.from = total % 2 === 0 ? 'tr' : 'ru';
+				this.to = total % 2 !== 0 ? 'tr' : 'ru';
 
 				let time = Date.now();
 				this.words.forEach(word => {
@@ -181,7 +195,7 @@ export default {
 		answer(i) {
 			this.state = i;
 
-			let word = this.words[i];
+			let word = this.words[this.index];
 			let time = Date.now();
 			if (this.state == this.index) {
 				this.sounds.pos.play();
