@@ -1,4 +1,5 @@
 import ext from './ext.js';
+import tsv from './tsv.js';
 
 ext();
 
@@ -18,17 +19,20 @@ const draw = (arg, unique, except) => {
 		: Math.floor(Math.random() * arg);
 };
 
-// const watchLocalStorage = (...keys) => {
-// 	return keys.reduce((prev, curr) => {
-// 		prev[curr] = (value) => window.localStorage.setItem(curr, value);
-// 		return prev;
-// 	}, {});
-// };
+const EMOJIS = {
+	def: '🙂',
+	pos: ['😀', '🥹', '😅', '😇', '😉', '🧐', '😎', '🤩', '🥳', '😏'],
+	neg: ['😞', '😖', '😫', '😢', '😭', '😤', '😠', '🤬', '🤯', '😨']
+};
+const SOUNDS = {
+	pos: new Audio('./data/pos.m4a'),
+	neg: new Audio('./data/neg.m4a')
+};
+const RU_VOWELS = [ 'у', 'е', 'ы', 'а', 'о', 'э', 'ё', 'я', 'и', 'ю' ];
+const TR_VERB_SUFFIXES = [ 'mak', 'mek' ];
 
-const ruVowels = [ 'у', 'е', 'ы', 'а', 'о', 'э', 'ё', 'я', 'и', 'ю' ];
-const trVerbSuffixes = [ 'mak', 'mek' ];
+// TODO:
 
-// Parse TSV
 // Show confetti
 // Integrate into Telegram
 
@@ -76,27 +80,22 @@ export default {
 	data() {
 		return {
 			dic: [],
-			grouped: [ [], [], [] ],
 
 			words: [],
 			index: 0,
 			state: 0,
 			from: 'tr',
-			to: 'ru',
-
-			emojis: {
-				def: '🙂',
-				pos: [ '😀', '🥹', '😅', '😇', '😉', '🧐', '😎', '🤩', '🥳', '😏' ],
-				neg: [ '😞', '😖', '😫', '😢', '😭', '😤', '😠', '🤬', '🤯', '😨' ]
-			},
-
-			sounds: {
-				pos: new Audio('./data/pos.m4a'),
-				neg: new Audio('./data/neg.m4a')
-			}
+			to: 'ru'
 		};
 	},
 	computed: {
+		grouped() {
+			let grouped = [[], [], []];
+			this.dic.forEach(word => {
+				grouped[word.partOfSpeech].push(word);
+			});
+			return grouped;
+		},
 		stats() {
 			let temp = this.dic.reduce((prev, { stats }) => {
 				prev.pass += stats.pass.count;
@@ -112,52 +111,36 @@ export default {
 		}
 	},
 	mounted() {
-		let separators = ['";"', '";', ';"', ';'];
-
-		fetch('./data/turkish.csv')
+		fetch('./data/turkish.tsv')
 			.then(res => res.text())
 			.then(text => {
 				let stats =
 					JSON.parse(window.localStorage.getItem('stats')) ||
 					[];
 
-				this.dic = text
-					.split('\r\n')
-					.map(str => separators.reduce((prev, curr) => prev || str.includes(curr) && str.split(curr), null).map(str => str.trim('"?')))
-					.map((arr, i) => {
-						let tr = arr[0];
-						let ru = arr[1];
-						let partOfSpeech = ru.split(' ').some(word => word.endsWith(['ть', 'ться'])) && tr.endsWith(trVerbSuffixes)
-							? 1
-							: ru.endsWith('й') && ruVowels.includes(ru[ru.length - 2])
-								? 2
-								: 0;
-
-						return {
-							tr,
-							ru,
-							partOfSpeech,
-							stats: {
-								draw: { time: stats[6 * i + 0] || 0, count: stats[6 * i + 1] || 0 },
-								pass: { time: stats[6 * i + 2] || 0, count: stats[6 * i + 3] || 0 },
-								fail: { time: stats[6 * i + 4] || 0, count: stats[6 * i + 5] || 0 },
-								total() {
-									return this.pass.count + this.fail.count;
-								}
-							}
-						};
-					})
+				this.dic = tsv.from(text, (obj, i) => {
+					obj.partOfSpeech = obj.ru.split(' ').some(word => word.endsWith(['ть', 'ться'])) && obj.tr.endsWith(TR_VERB_SUFFIXES)
+						? 1
+						: obj.ru.endsWith('й') && RU_VOWELS.includes(obj.ru[obj.ru.length - 2])
+							? 2
+							: 0;
+					obj.stats = {
+						draw: { time: stats[6 * i + 0] || 0, count: stats[6 * i + 1] || 0 },
+						pass: { time: stats[6 * i + 2] || 0, count: stats[6 * i + 3] || 0 },
+						fail: { time: stats[6 * i + 4] || 0, count: stats[6 * i + 5] || 0 },
+						total() {
+							return this.pass.count + this.fail.count;
+						}
+					};
+				})
 					.filter(obj => obj.ru && obj.tr);
-				this.dic.forEach(word => {
-					this.grouped[word.partOfSpeech].push(word);
-				});
 
 				this.question();
 			});
 	},
 	methods: {
 		emoji() {
-			return this.state < 0 ? this.emojis.def : draw(this.state == this.index ? this.emojis.pos : this.emojis.neg);
+			return this.state < 0 ? EMOJIS.def : draw(this.state == this.index ? EMOJIS.pos : EMOJIS.neg);
 		},
 		color(i) {
 			// not answered
@@ -220,12 +203,12 @@ export default {
 			let word = this.words[this.index];
 			let time = Date.now();
 			if (this.state == this.index) {
-				this.sounds.pos.play();
+				SOUNDS.pos.play();
 
 				word.stats.pass.time = time;
 				word.stats.pass.count++;
 			} else {
-				this.sounds.neg.play();
+				SOUNDS.neg.play();
 
 				word.stats.fail.time = time;
 				word.stats.fail.count++;
