@@ -91,8 +91,8 @@ export default {
 			},
 
 			sounds: {
-				pos: new Audio('./data/Positive.m4a'),
-				neg: new Audio('./data/Negative.m4a')
+				pos: new Audio('./data/pos.m4a'),
+				neg: new Audio('./data/neg.m4a')
 			}
 		};
 	},
