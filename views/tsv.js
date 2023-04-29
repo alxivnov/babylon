@@ -27,7 +27,7 @@ export default {
 	// TODO: parse strings with tabs and returns
 	from: (tsv, assemble) => {
 		let parsed = tsv
-			.split('\r')
+			.split(/\r\n|\r|\n/g)
 			.map(line => {
 				return line
 					.split('\t')
@@ -35,7 +35,7 @@ export default {
 						return cell == ''
 							? null
 							: cell.startsWith('"') && cell.endsWith('"')
-								? cell.substring(1, -1).replace(/  /g, ' ').replace('/""/g', '"')
+								? cell.substring(1, cell.length - 1).replace(/  /g, ' ').replace('/""/g', '"')
 								: tryParse(cell) || cell;
 					});
 			});
