@@ -133,7 +133,7 @@ export default {
 						}
 					};
 				})
-					.filter(obj => obj.ru && obj.tr);
+					.filter(({ ru, tr }) => ru && tr);
 
 				this.question();
 			});

@@ -61,16 +61,21 @@ export default () => {
 		return this.trim(charlist, +1);
 	};
 
-	let _startsWith = String.prototype.startsWith;
+	const _startsWith = String.prototype.startsWith;
 	String.prototype.startsWith = function (searchString, position) {
 		return Array.isArray(searchString)
 			? searchString.some(prefix => this.endsWith(prefix, position))
 			: _startsWith.call(this, searchString, position);
 	};
-	let _endsWith = String.prototype.endsWith;
+	const _endsWith = String.prototype.endsWith;
 	String.prototype.endsWith = function (searchString, endPosition) {
 		return Array.isArray(searchString)
 			? searchString.some(suffix => this.endsWith(suffix, endPosition))
 			: _endsWith.call(this, searchString, endPosition);
+	};
+
+	const _substring = String.prototype.substring;
+	String.prototype.substring = function (start, end) {
+		return _substring.call(this, start < 0 ? this.length + start : start, end < 0 ? this.length + end : end);
 	};
 }
