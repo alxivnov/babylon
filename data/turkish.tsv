@@ -351,7 +351,7 @@ konuşmak	говорить
 koşmak	бежать
 koymak	класть
 kullanmak	"водить машину; использовать"
-okumak 2	читать, учиться 2
+*okumak	*читать, учиться
 olmak	быть
 oturmak	сидеть
 oynamak	играть
@@ -495,7 +495,7 @@ ucuzluk	распродажа
 zıl	звонить
 anahtar	ключ
 apartman	многоквартирный дом, квартира
-asansör 2	лифт 2
+*asansör	*лифт
 baca	труба
 bahçe	сад
 balkon	балкон

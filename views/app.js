@@ -118,7 +118,7 @@ export default {
 					JSON.parse(window.localStorage.getItem('stats')) ||
 					[];
 
-				this.dic = tsv.from(text, (obj, i) => {
+				this.full = tsv.from(text, (obj, i) => {
 					obj.partOfSpeech = obj.ru.split(' ').some(word => word.endsWith(['ть', 'ться'])) && obj.tr.endsWith(TR_VERB_SUFFIXES)
 						? 1
 						: obj.ru.endsWith('й') && RU_VOWELS.includes(obj.ru[obj.ru.length - 2])
@@ -132,8 +132,8 @@ export default {
 							return this.pass.count + this.fail.count;
 						}
 					};
-				})
-					.filter(({ ru, tr }) => ru && tr);
+				});
+				this.dic = this.full.filter(({ ru, tr }) => ru && tr && !ru.startsWith('*') && !tr.startsWith('*'));
 
 				this.question();
 			});
@@ -214,7 +214,7 @@ export default {
 				word.stats.fail.count++;
 			}
 
-			window.localStorage.setItem('stats', JSON.stringify(this.dic.flatMap(word => [
+			window.localStorage.setItem('stats', JSON.stringify(this.full.flatMap(word => [
 				word.stats.draw.time,
 				word.stats.draw.count,
 				word.stats.pass.time,
