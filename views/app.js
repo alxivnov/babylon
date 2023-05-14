@@ -192,6 +192,11 @@ export default {
 					word.stats.draw.count++;
 				});
 
+				let text = this.words[this.index][this.from];
+				let utterance = new SpeechSynthesisUtterance(text);
+				utterance.lang = this.from;
+				window.speechSynthesis.speak(utterance);
+
 //				new bootstrap.Button('#question').toggle();
 			}
 
