@@ -52,7 +52,7 @@ export default {
 					<div class="progress-bar overflow-visible bg-success" :style="{ width: stats.progress + '%' }">{{ Math.round(stats.progress * 100) / 100 + '%' }}</div>
 				</div>
 			</div>
-			<h1 class="mx-auto my-auto">{{ this.words.length > this.index && words[index][from] }}</h1>
+			<h1 class="mx-auto my-auto">{{ this.words.length > this.index && words[index][from] || '' }}</h1>
 			<button
 				type="button"
 				class="btn btn-lg rounded-4"
@@ -106,7 +106,7 @@ export default {
 			return {
 				...temp,
 				total: temp.pass + temp.fail,
-				progress: temp.pass / temp.maxProgress * 100
+				progress: temp.pass / (temp.maxProgress || 1) * 100
 			};
 		}
 	},
