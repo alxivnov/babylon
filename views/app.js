@@ -195,6 +195,10 @@ export default {
 				let text = this.words[this.index][this.from];
 				let utterance = new SpeechSynthesisUtterance(text);
 				utterance.lang = this.from;
+
+				utterance.voice = window.speechSynthesis.getVoices()
+					.find(voice => voice.lang.startsWith(this.from));
+
 				window.speechSynthesis.speak(utterance);
 
 //				new bootstrap.Button('#question').toggle();
