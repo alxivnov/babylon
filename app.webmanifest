@@ -29,7 +29,7 @@
 			"sizes": "180x180"
 		},
 		{
-			"src": "https://alxivnov.github.io/words/data/image.png"
+			"src": "./data/image.png"
 		}
 	],
 	"theme_color": "#ffffff",
